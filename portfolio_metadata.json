@@ -1,0 +1,32 @@
+{
+  "folder": "16_Client_Project_Portal",
+  "name": "ProjectRoom",
+  "title": "Private Client Delivery & Approval Portal",
+  "category": "Web Development",
+  "port": 8196,
+  "problem": "When project updates, delivery notes and approvals live in separate messages, clients lose context and teams struggle to establish the next agreed step.",
+  "solution": "A private WordPress workspace puts milestones, protected delivery briefs, client approvals, change requests and actor-attributed activity in one place, with access checked against the assigned project member.",
+  "features": [
+    "Native WordPress login and client membership checks",
+    "Private delivery brief downloads behind access checks",
+    "Change request, revision and approval state workflow",
+    "Staff project creation and actor-attributed history"
+  ],
+  "verification": "24 live WordPress integration checks passed across administrator and two client accounts, covering cross-project read/download/write denial, CSRF protection and the complete review/revision/approval workflow.",
+  "limitations": "Locally verified independent project with fictional sample clients and project content. One assigned client per project; administrator staff. No file upload, email, invoicing or public hosting. Delivery briefs are private text downloads.",
+  "flow": "Staff creates milestone \u2192 Delivers brief \u2192 Client requests changes \u2192 Staff revises \u2192 Client approves",
+  "captions": [
+    "Actual authenticated client overview showing milestone progress, review status, the project contact and activity history.",
+    "Actual saved client decision with updated milestone status and activity history."
+  ],
+  "features4": [
+    "Native WordPress login and client membership checks",
+    "Private delivery brief downloads behind access checks",
+    "Change request, revision and approval state workflow",
+    "Staff project creation and actor-attributed history"
+  ],
+  "screenshots": [
+    "01-workspace.png",
+    "02-result.png"
+  ]
+}
