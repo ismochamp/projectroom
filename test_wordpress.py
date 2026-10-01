@@ -20,7 +20,7 @@ def check(text):checks.append(text);print('PASS:',text)
 env=dict(line.split('=',1) for line in (ROOT/'.local.env').read_text().splitlines())
 def login(name,key):
  web=client();request(web,'/wp-login.php');request(web,'/wp-login.php',{'log':name,'pwd':env[key],'redirect_to':BASE+'/','testcookie':'1'});return web
-admin=login('portfolio_admin','WP_ADMIN_PASSWORD');user=login('portfolio_client','WP_CLIENT_PASSWORD');other=login('portfolio_other','WP_OTHER_PASSWORD');guest=client()
+admin=login('port_admin','WP_ADMIN_PASSWORD');user=login('port_client','WP_CLIENT_PASSWORD');other=login('port_other','WP_OTHER_PASSWORD');guest=client()
 page,_=request(guest);assert 'Your project.' in page and 'Northline' not in page;check('Anonymous homepage contains only sign-in content')
 page,_=request(user);assert 'Northline website refresh' in page and 'Southbank' not in page and 'PRIVATE —' not in page;check('Assigned client sees own project without other project data')
 request(user,'/?project=2',status=403);check('Direct URL to another client project rejected')
@@ -28,7 +28,7 @@ request(user,'/wp-admin/admin-post.php?action=pr_download&project=2&milestone=4'
 request(guest,'/wp-admin/admin-post.php?action=pr_download&project=1&milestone=2',status=403);check('Anonymous private delivery download rejected')
 page,_=request(user,'/wp-admin/admin-post.php?action=pr_download&project=1&milestone=2');assert 'PRIVATE DELIVERY BRIEF' in page and 'Enquiry' in page;check('Assigned client can download its own private brief')
 request(user,'/wp-admin/admin-post.php',{'action':'pr_create_project'},403);check('Client cannot create projects')
-page,_=request(admin);form=forms(page,'pr_create_project')[0];client_id=re.search(r'<option value="(\d+)">[^<]*portfolio_client',form).group(1);tag='INTEGRATION FIXTURE '+uuid.uuid4().hex[:8];data=fields(form);data.update(name=tag,client_id=client_id,summary='Temporary fixture for state-transition and access tests.');page,url=request(admin,'/wp-admin/admin-post.php',data);pid=parse_qs(urlsplit(url).query)['project'][0];check('Staff creates persistent project assigned to a WordPress client')
+page,_=request(admin);form=forms(page,'pr_create_project')[0];client_id=re.search(r'<option value="(\d+)">[^<]*port_client',form).group(1);tag='INTEGRATION FIXTURE '+uuid.uuid4().hex[:8];data=fields(form);data.update(name=tag,client_id=client_id,summary='Temporary fixture for state-transition and access tests.');page,url=request(admin,'/wp-admin/admin-post.php',data);pid=parse_qs(urlsplit(url).query)['project'][0];check('Staff creates persistent project assigned to a WordPress client')
 try:
  data=fields(forms(page,'pr_create_milestone')[0]);data.update(title='Verification delivery',due_date=(datetime.now(timezone.utc)+timedelta(days=7)).strftime('%Y-%m-%d'));page,_=request(admin,'/wp-admin/admin-post.php',data);deliver=fields(forms(page,'pr_transition')[0]);mid=deliver['milestone_id'];deliver.update(operation='deliver',note='TEST DELIVERY: Confirm project membership checks and client review transitions.');check('Staff creates persistent milestone')
  request(admin,'/wp-admin/admin-post.php',dict(deliver,_wpnonce='invalid'),403);check('Invalid state-change nonce rejected')

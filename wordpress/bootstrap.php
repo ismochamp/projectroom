@@ -6,16 +6,16 @@ require '/var/www/html/wp-load.php';
 require_once ABSPATH.'wp-admin/includes/upgrade.php';
 require_once ABSPATH.'wp-admin/includes/plugin.php';
 add_filter('pre_wp_mail',function(){return false;});
-if(!is_blog_installed())wp_install('Projectroom','portfolio_admin','admin@example.invalid',false,'',getenv('PORTFOLIO_ADMIN_PASSWORD'));
+if(!is_blog_installed())wp_install('Projectroom','port_admin','admin@example.invalid',false,'',getenv('port_ADMIN_PASSWORD'));
 update_option('siteurl','http://127.0.0.1:8196');update_option('home','http://127.0.0.1:8196');
 update_option('permalink_structure','/%postname%/');update_option('blog_public',0);
 $result=activate_plugin('projectroom-portal/projectroom-portal.php');if(is_wp_error($result)){fwrite(STDERR,$result->get_error_message());exit(1);}
 switch_theme('projectroom');flush_rewrite_rules(true);
 if(!get_option('pr_seeded')){
  global $wpdb;[$p,$m,$a]=pr_tables();
- $client=wp_create_user('portfolio_client',getenv('PORTFOLIO_CLIENT_PASSWORD'),'client@example.invalid');wp_update_user(['ID'=>$client,'display_name'=>'Alex Morgan · Sample client','role'=>'subscriber']);
- $other=wp_create_user('portfolio_other',getenv('PORTFOLIO_OTHER_PASSWORD'),'other@example.invalid');wp_update_user(['ID'=>$other,'display_name'=>'Sam Taylor · Sample client','role'=>'subscriber']);
- $admin=get_user_by('login','portfolio_admin');wp_update_user(['ID'=>$admin->ID,'display_name'=>'Ismail Habib']);wp_set_current_user($admin->ID);
+ $client=wp_create_user('port_client',getenv('port_CLIENT_PASSWORD'),'client@example.invalid');wp_update_user(['ID'=>$client,'display_name'=>'Alex Morgan · Sample client','role'=>'subscriber']);
+ $other=wp_create_user('port_other',getenv('port_OTHER_PASSWORD'),'other@example.invalid');wp_update_user(['ID'=>$other,'display_name'=>'Sam Taylor · Sample client','role'=>'subscriber']);
+ $admin=get_user_by('login','port_admin');wp_update_user(['ID'=>$admin->ID,'display_name'=>'Ismail Habib']);wp_set_current_user($admin->ID);
  $wpdb->insert($p,['name'=>'Northline website refresh','client_id'=>$client,'summary'=>'A clearer service journey, a simpler enquiry flow, and a website your team can maintain.','created_at'=>current_time('mysql',true)]);$pid=$wpdb->insert_id;
  pr_log($pid,0,'Project workspace opened','Fictional sample project used to verify the delivery and approval workflow.');
  $items=[['Discovery & page structure','approved',-4,'Page structure agreed: Home, Services, Approach and Contact. The service journey groups offerings around visitor needs. This is original sample delivery content for an independent project.'],['Enquiry flow & content review','ready_for_review',3,"The revised enquiry flow is ready for review.\n\nIncluded in this delivery:\n• A shorter form with clear labels and required fields.\n• A confirmation message that explains the next step.\n• A content outline for the three service pages.\n\nPlease review the proposed field order and the wording of the confirmation. Approve this milestone or add the changes you need below."],['Build handover & final checks','in_progress',10,'']];

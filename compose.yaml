@@ -1,10 +1,10 @@
-name: ih-portfolio-16
+name: ih-port-16
 services:
   database:
     image: mariadb:lts@sha256:805c8e104bd563d5bfa24fadd3f31cd419ea859cb5277f32b5dbf2db714f9ed1
     environment:
-      MARIADB_DATABASE: portfolio
-      MARIADB_USER: portfolio
+      MARIADB_DATABASE: port
+      MARIADB_USER: port
       MARIADB_PASSWORD: ${DB_PASSWORD}
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
@@ -20,12 +20,12 @@ services:
       - "127.0.0.1:8196:80"
     environment:
       WORDPRESS_DB_HOST: database
-      WORDPRESS_DB_USER: portfolio
+      WORDPRESS_DB_USER: port
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
-      WORDPRESS_DB_NAME: portfolio
-      PORTFOLIO_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
-      PORTFOLIO_CLIENT_PASSWORD: ${WP_CLIENT_PASSWORD}
-      PORTFOLIO_OTHER_PASSWORD: ${WP_OTHER_PASSWORD}
+      WORDPRESS_DB_NAME: port
+      port_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
+      port_CLIENT_PASSWORD: ${WP_CLIENT_PASSWORD}
+      port_OTHER_PASSWORD: ${WP_OTHER_PASSWORD}
     depends_on:
       database:
         condition: service_healthy
@@ -33,7 +33,7 @@ services:
       - wordpress:/var/www/html
       - ./wordpress/projectroom:/var/www/html/wp-content/themes/projectroom:ro
       - ./wordpress/projectroom-portal:/var/www/html/wp-content/plugins/projectroom-portal:ro
-      - ./wordpress/bootstrap.php:/tmp/portfolio-bootstrap.php:ro
+      - ./wordpress/bootstrap.php:/tmp/port-bootstrap.php:ro
 volumes:
   database:
   wordpress:
