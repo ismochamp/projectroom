@@ -49,7 +49,7 @@ Open **Stop WordPress.command**, or run `docker compose --env-file .local.env st
 - `compose.yaml`: official image digests, storage and local-only port mapping.
 - `test_wordpress.py`: live integration tests against the local WordPress application.
 - `TEST_RESULTS.md`: recorded verification results.
-- `CASE_STUDY.md`, `MALT_COPY.md`, `screenshots/`: portfolio material.
+- `CASE_STUDY.md`, `screenshots/`: portfolio material.
 
 To install in another WordPress environment, install and activate the plugin ZIP, then install and activate the theme ZIP. Plugin activation creates its tables. The local bootstrap is specific to the supplied Docker environment and should not be run on a client installation. Create your own content through the application after installation.
 
